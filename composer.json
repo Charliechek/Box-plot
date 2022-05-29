@@ -1,0 +1,17 @@
+{
+    "name": "charl/box-plot",
+    "autoload": {
+        "psr-4": {
+            "BoxPlot\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Karel Kohout",
+            "email": "karel.kohout@post.cz"
+        }
+    ],
+    "require": {
+        "php": ">=8.1"
+    }
+}
