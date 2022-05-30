@@ -11,6 +11,9 @@ class SouborDat
 
     public function __construct(array $hodnoty)
     {
+        if ($hodnoty === []) {
+            throw new Exception("Pole dat neobsahuje žádnou hodnotu.");
+        }
         if (!$this->obsahujePoleCiselneHodnoty($hodnoty)) {
             throw new Exception("Pole dat obsahuje jiné než číselné hodnoty.");
         }

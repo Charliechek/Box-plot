@@ -15,10 +15,10 @@ class BoxPlot extends Prvek
     public function nakresli(SouborDat $souborDat): void
     {
         $this->vyska = $this->rozmery->grafVyska / 2;
-        $this->nakresliMedian($souborDat->vratMedian());
-        $this->nakresliKrabici($souborDat->vrat1Kvartil(), $souborDat->vrat3Kvartil());
         $this->nakresliVous($souborDat->vrat1Kvartil(), $souborDat->vratMinimum());
         $this->nakresliVous($souborDat->vrat3Kvartil(), $souborDat->vratMaximum());
+        $this->nakresliKrabici($souborDat->vrat1Kvartil(), $souborDat->vrat3Kvartil());
+        $this->nakresliMedian($souborDat->vratMedian());
     }
 
     private function nakresliMedian(float $median): void
