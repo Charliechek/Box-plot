@@ -3,20 +3,19 @@
 namespace BoxPlot\Prvky;
 
 use BoxPlot\Data\Bod;
-use BoxPlot\Data\HodnotyGrafu;
 use BoxPlot\Data\SouborDat;
 
 class Telo extends Prvek
 {
-    public function nakresli(HodnotyGrafu $hodnotyGrafu, SouborDat $souborDat): void
+    public function nakresli(SouborDat $souborDat): void
     {
         $bod1 = new Bod(
-            $this->rozmery->grafLevyHorniBod->x, 
-            $this->rozmery->grafLevyHorniBod->y
+            $this->rozmery->grafLevyOkraj, 
+            $this->rozmery->grafHorniOkraj
         );
         $bod2 = new Bod( 
-            $this->rozmery->grafLevyHorniBod->x + $this->rozmery->grafSirka, 
-            $this->rozmery->grafLevyHorniBod->y + $this->rozmery->grafVyska
+            $this->rozmery->grafLevyOkraj + $this->rozmery->grafSirka, 
+            $this->rozmery->grafHorniOkraj + $this->rozmery->grafVyska
         ); 
         $this->obrazek->nakresliObdelnik($bod1, $bod2);
     }
