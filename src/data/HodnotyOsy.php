@@ -10,7 +10,6 @@ class HodnotyOsy
     public readonly float $minimum;
     public readonly float $maximum;
     public readonly int $nasobekJednotky;
-    public readonly int $pocetZnacek;
 
     public function __construct(SouborDat $souborDat)
     {
@@ -18,13 +17,20 @@ class HodnotyOsy
         $maximumDat = $souborDat->vratMaximum();
         $rozpetiDat = $maximumDat - $minimumDat;
         $this->nasobekJednotky = $this->vyberJednotku($rozpetiDat);
-        $this->minimum = $this->zaokrouhliNaNasobekDolu($minimumDat, $this->nasobekJednotky) - $this->nasobekJednotky;
-        $this->maximum = $this->zaokrouhliNaNasobekNahoru($maximumDat, $this->nasobekJednotky) + $this->nasobekJednotky;
-        $this->pocetZnacek = (($this->maximum - $this->minimum) / $this->nasobekJednotky) + 1;
+        $zaokrouhleneMinimum = $this->zaokrouhliNaNasobekDolu($minimumDat, $this->nasobekJednotky);
+        $this->minimum = ($zaokrouhleneMinimum == $minimumDat) 
+            ? $zaokrouhleneMinimum - $this->nasobekJednotky 
+            : $zaokrouhleneMinimum
+        ;
+        $zaokrouhleneMaximum = $this->zaokrouhliNaNasobekNahoru($maximumDat, $this->nasobekJednotky);
+        $this->maximum = ($zaokrouhleneMaximum == $maximumDat)
+            ? $zaokrouhleneMaximum + $this->nasobekJednotky
+            : $zaokrouhleneMaximum
+        ;
     }
 
     // vybere jednotku osy tak, aby na ose nebyl více než maximální počet značek
-    private function vyberJednotku(float $rozpeti): int
+    private function vyberJednotku(int $rozpeti): int
     {
         foreach (self::NASOBKY_JEDNOTEK as $nasobekJednotky) {
             if ($rozpeti / self::MAX_POCET_ZNACEK_OSY < $nasobekJednotky) {

@@ -23,7 +23,7 @@ class BoxPlot extends Prvek
 
     private function nakresliMedian(float $median): void
     {
-        $x = $this->rozmery->grafLevyOkraj + ($median - $this->hodnotyOsy->minimum) * $this->jednotkaOsyVPixelech;
+        $x = $this->vypocitejXProHodnotu($median);
         $bod1 = new Bod($x, $this->rozmery->grafStred->y + $this->vyska / 2);
         $bod2 = new Bod($x, $this->rozmery->grafStred->y - $this->vyska / 2);
         $this->obrazek->nakresliCaru($bod1, $bod2, self::SIRKA_CARY, barva: Obrazek::BARVA_CERVENA);
@@ -31,8 +31,8 @@ class BoxPlot extends Prvek
 
     private function nakresliKrabici(float $kvartil1, float $kvartil3): void
     {
-        $x1 = $this->rozmery->grafLevyOkraj + ($kvartil1 - $this->hodnotyOsy->minimum) * $this->jednotkaOsyVPixelech;
-        $x2 = $this->rozmery->grafLevyOkraj + ($kvartil3 - $this->hodnotyOsy->minimum) * $this->jednotkaOsyVPixelech;
+        $x1 = $this->vypocitejXProHodnotu($kvartil1);
+        $x2 = $this->vypocitejXProHodnotu($kvartil3);
         $bod1 = new Bod($x1, $this->rozmery->grafStred->y + $this->vyska / 2);
         $bod2 = new Bod($x2, $this->rozmery->grafStred->y - $this->vyska / 2);
         $this->obrazek->nakresliObdelnik($bod1, $bod2, self::SIRKA_CARY);
@@ -40,8 +40,8 @@ class BoxPlot extends Prvek
 
     private function nakresliVous(float $vnitrniHodnota, float $vnejsiHodnota): void
     {
-        $xVnejsiHodnoty = $this->rozmery->grafLevyOkraj + ($vnejsiHodnota - $this->hodnotyOsy->minimum) * $this->jednotkaOsyVPixelech;
-        $xVnitrniHodnoty = $this->rozmery->grafLevyOkraj + ($vnitrniHodnota - $this->hodnotyOsy->minimum) * $this->jednotkaOsyVPixelech;
+        $xVnejsiHodnoty = $this->vypocitejXProHodnotu($vnejsiHodnota);
+        $xVnitrniHodnoty = $this->vypocitejXProHodnotu($vnitrniHodnota);
         $bodSvisleCary1 = new Bod($xVnejsiHodnoty, $this->rozmery->grafStred->y + $this->vyska / 4);
         $bodSvisleCary2 = new Bod($xVnejsiHodnoty, $this->rozmery->grafStred->y - $this->vyska / 4);
         $bodVodorovneCary1 = new Bod($xVnejsiHodnoty, $this->rozmery->grafStred->y);

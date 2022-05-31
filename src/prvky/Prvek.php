@@ -12,7 +12,8 @@ abstract class Prvek
     protected Obrazek $obrazek;
     protected Rozmery $rozmery;
     protected HodnotyOsy $hodnotyOsy;
-    protected float $jednotkaOsyVPixelech;
+    
+    private float $jednotkaOsyVPixelech;
 
     public function __construct(Obrazek $obrazek, Rozmery $rozmery, HodnotyOsy $hodnotyOsy)
     {
@@ -23,4 +24,9 @@ abstract class Prvek
     }
 
     abstract public function nakresli(SouborDat $souborDat): void;
+
+    protected function vypocitejXProHodnotu(float $hodnota): float
+    {
+        return $this->rozmery->grafLevyOkraj + ($hodnota - $this->hodnotyOsy->minimum) * $this->jednotkaOsyVPixelech;
+    }
 }

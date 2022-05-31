@@ -10,26 +10,37 @@ use BoxPlot\Prvky\Prvek;
 
 class Osa extends Prvek
 {
-    private float $vzdalenostZnacek;
+    private int $y;
 
     public function nakresli(SouborDat $souborDat): void
     {
-        $this->vzdalenostZnacek = $this->hodnotyOsy->nasobekJednotky * $this->jednotkaOsyVPixelech;
-        for ($i = 0; $i < $this->hodnotyOsy->pocetZnacek; $i++) {
-            $this->nakresliZnacku($i);
+        $this->y = $this->rozmery->grafHorniOkraj + $this->rozmery->grafVyska;
+        for (
+            $hodnota = $this->hodnotyOsy->minimum; 
+            $hodnota <= $this->hodnotyOsy->maximum; 
+            $hodnota += $this->hodnotyOsy->nasobekJednotky
+        ) {
+            $this->nakresliZnacku($hodnota);
         }
     }
     
-    private function nakresliZnacku(int $poradiZnacky): void
+    private function nakresliZnacku(int $hodnota): void
     {
-        $bodCary1 = new Bod(
-            $this->rozmery->grafLevyOkraj + $poradiZnacky * $this->vzdalenostZnacek,
-            $this->rozmery->grafHorniOkraj + $this->rozmery->grafVyska
-        );
-        $bodCary2 = new Bod($bodCary1->x, $bodCary1->y + 5);
-        $bodTextu = new Bod($bodCary1->x, $bodCary1->y + Rozmery::VYSKA_OSY_PX / 2);
-        $cislo = $this->hodnotyOsy->minimum + $poradiZnacky * $this->hodnotyOsy->nasobekJednotky;
-        $this->obrazek->nakresliCaru($bodCary1, $bodCary2, sirka: 2, barva: Obrazek::BARVA_CERNA);
-        $this->obrazek->napisCentrovanyText($bodTextu, $cislo, $this->rozmery->velikostPisma);
+        $x = $this->vypocitejXProHodnotu($hodnota);
+        $this->nakresliCarku($x);
+        $this->napisHodnotu($x, $hodnota);
+    }
+    
+    private function nakresliCarku(int $x): void
+    {        
+        $bod1 = new Bod($x, $this->y);
+        $bod2 = new Bod($x, $this->y + 5);
+        $this->obrazek->nakresliCaru($bod1, $bod2, sirka: 2, barva: Obrazek::BARVA_CERNA);
+    }
+    
+    private function napisHodnotu(int $x, int $hodnota): void
+    {
+        $bod = new Bod($x, $this->y + Rozmery::VYSKA_OSY_PX / 2);
+        $this->obrazek->napisCentrovanyText($bod, $hodnota, $this->rozmery->velikostPisma);
     }
 }
