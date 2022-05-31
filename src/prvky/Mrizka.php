@@ -21,7 +21,7 @@ class Mrizka extends Prvek
         }
     }
 
-    private function nakresliCaru(int $hodnota): void
+    private function nakresliCaru(float $hodnota): void
     {
         $x = $this->vypocitejXProHodnotu($hodnota);
         $bod1 = new Bod($x, $this->rozmery->grafHorniOkraj);

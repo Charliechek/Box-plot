@@ -4,12 +4,12 @@ namespace BoxPlot\Data;
 
 class HodnotyOsy
 {
-    private const NASOBKY_JEDNOTEK = [1, 5, 10, 25, 50, 100];
+    private const NASOBKY_JEDNOTEK = [.1, .5, 1, 5, 10, 25, 50, 100];
     private const MAX_POCET_ZNACEK_OSY = 10;
 
     public readonly float $minimum;
     public readonly float $maximum;
-    public readonly int $nasobekJednotky;
+    public readonly float $nasobekJednotky;
 
     public function __construct(SouborDat $souborDat)
     {
@@ -17,20 +17,20 @@ class HodnotyOsy
         $maximumDat = $souborDat->vratMaximum();
         $rozpetiDat = $maximumDat - $minimumDat;
         $this->nasobekJednotky = $this->vyberJednotku($rozpetiDat);
-        $zaokrouhleneMinimum = $this->zaokrouhliNaNasobekDolu($minimumDat, $this->nasobekJednotky);
-        $this->minimum = ($zaokrouhleneMinimum == $minimumDat) 
-            ? $zaokrouhleneMinimum - $this->nasobekJednotky 
+        $zaokrouhleneMinimum = $this->zaokrouhliNaNasobekJednotkyDolu($minimumDat);
+        $this->minimum = (bccomp($zaokrouhleneMinimum, $minimumDat, 4) === 0)
+            ? $zaokrouhleneMinimum - $this->nasobekJednotky
             : $zaokrouhleneMinimum
         ;
-        $zaokrouhleneMaximum = $this->zaokrouhliNaNasobekNahoru($maximumDat, $this->nasobekJednotky);
-        $this->maximum = ($zaokrouhleneMaximum == $maximumDat)
+        $zaokrouhleneMaximum = $this->zaokrouhliNaNasobekJednotkyNahoru($maximumDat);
+        $this->maximum = (bccomp($zaokrouhleneMaximum, $maximumDat, 4) === 0)
             ? $zaokrouhleneMaximum + $this->nasobekJednotky
             : $zaokrouhleneMaximum
         ;
     }
 
     // vybere jednotku osy tak, aby na ose nebyl více než maximální počet značek
-    private function vyberJednotku(int $rozpeti): int
+    private function vyberJednotku(float $rozpeti): float
     {
         foreach (self::NASOBKY_JEDNOTEK as $nasobekJednotky) {
             if ($rozpeti / self::MAX_POCET_ZNACEK_OSY < $nasobekJednotky) {
@@ -40,13 +40,13 @@ class HodnotyOsy
         return self::NASOBKY_JEDNOTEK[count(self::NASOBKY_JEDNOTEK) - 1];
     }
 
-    function zaokrouhliNaNasobekDolu(float $cislo, int $nasobek): int
+    function zaokrouhliNaNasobekJednotkyDolu(float $cislo): float
     {
-        return floor($cislo / $nasobek) * $nasobek;
+        return floor($cislo / $this->nasobekJednotky) * $this->nasobekJednotky;
     }
     
-    function zaokrouhliNaNasobekNahoru(float $cislo, int $nasobek): int
+    function zaokrouhliNaNasobekJednotkyNahoru(float $cislo): float
     {
-        return ceil($cislo / $nasobek) * $nasobek;
+        return ceil($cislo / $this->nasobekJednotky) * $this->nasobekJednotky;
     }
 }

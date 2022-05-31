@@ -24,7 +24,7 @@ class Osa extends Prvek
         }
     }
     
-    private function nakresliZnacku(int $hodnota): void
+    private function nakresliZnacku(float $hodnota): void
     {
         $x = $this->vypocitejXProHodnotu($hodnota);
         $this->nakresliCarku($x);
@@ -38,7 +38,7 @@ class Osa extends Prvek
         $this->obrazek->nakresliCaru($bod1, $bod2, sirka: 2, barva: Obrazek::BARVA_CERNA);
     }
     
-    private function napisHodnotu(int $x, int $hodnota): void
+    private function napisHodnotu(int $x, float $hodnota): void
     {
         $bod = new Bod($x, $this->y + Rozmery::VYSKA_OSY_PX / 2);
         $this->obrazek->napisCentrovanyText($bod, $hodnota, $this->rozmery->velikostPisma);
