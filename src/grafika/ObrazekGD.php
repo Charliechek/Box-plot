@@ -25,14 +25,9 @@ class ObrazekGD implements Obrazek
 
     private function vyplnPlatnoBarvou(): void
     {
-        imagefilledrectangle(
-            $this->platno, 
-            0, 
-            0, 
-            $this->sirka, 
-            $this->vyska, 
-            $this->barvy[self::BARVA_BILA]
-        );
+        $bod1 = new Bod(0, 0);
+        $bod2 = new Bod($this->sirka, $this->vyska);
+        $this->nakresliVyplnenyObdelnik($bod1, $bod2, self::BARVA_BILA);
     }
 
     private function vytvorBarvy(): void
@@ -40,7 +35,7 @@ class ObrazekGD implements Obrazek
         $this->barvy = [
             self::BARVA_BILA => imagecolorallocate($this->platno, 255, 255, 255),
             self::BARVA_CERNA => imagecolorallocate($this->platno, 0, 0, 0),
-            self::BARVA_SEDA => imagecolorallocate($this->platno, 150, 150, 150),
+            self::BARVA_SEDA => imagecolorallocate($this->platno, 200, 200, 200),
             self::BARVA_CERVENA => imagecolorallocate($this->platno, 255, 0, 0)
         ];
     }
@@ -73,6 +68,11 @@ class ObrazekGD implements Obrazek
     {
         $this->nastavSirkuCary($sirka);
         imagerectangle($this->platno, $bod1->x, $bod1->y, $bod2->x, $bod2->y, $this->barvy[$barva]);
+    }
+
+    public function nakresliVyplnenyObdelnik(Bod $bod1, Bod $bod2, string $barva = self::BARVA_CERNA): void
+    {
+        imagefilledrectangle($this->platno, $bod1->x, $bod1->y, $bod2->x, $bod2->y, $this->barvy[$barva]);
     }
 
     private function nastavSirkuCary(int $sirka): void

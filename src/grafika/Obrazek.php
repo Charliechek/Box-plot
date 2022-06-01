@@ -23,6 +23,8 @@ interface Obrazek
 
     public function nakresliObdelnik(Bod $bod1, Bod $bod2, int $sirka = 1, string $barva = self::BARVA_CERNA): void;
 
+    public function nakresliVyplnenyObdelnik(Bod $bod1, Bod $bod2, string $barva = self::BARVA_CERNA): void;
+
     public function napisText(Bod $bod, string $text, int $velikost = 12, string $barva = self::BARVA_CERNA): void;
 
     public function napisCentrovanyText(Bod $bod, string $text, int $velikost = 12, string $barva = self::BARVA_CERNA): void;

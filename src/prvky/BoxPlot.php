@@ -35,6 +35,7 @@ class BoxPlot extends Prvek
         $x2 = $this->vypocitejXProHodnotu($kvartil3);
         $bod1 = new Bod($x1, $this->rozmery->grafStred->y + $this->vyska / 2);
         $bod2 = new Bod($x2, $this->rozmery->grafStred->y - $this->vyska / 2);
+        $this->obrazek->nakresliVyplnenyObdelnik($bod1, $bod2, Obrazek::BARVA_BILA);
         $this->obrazek->nakresliObdelnik($bod1, $bod2, self::SIRKA_CARY);
     }
 
